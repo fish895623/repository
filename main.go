@@ -54,28 +54,34 @@ func main() {
 
 		c.JSON(http.StatusOK, gin.H{"data": user})
 	})
-	r.GET("/day/:year/:month/:day", func(c *gin.Context) {
+	r.GET("/day", func(c *gin.Context) {
+		c.Redirect(http.StatusTemporaryRedirect, "/day/2021/1/1")
+	}).GET("/week", func(c *gin.Context) {
+		c.Redirect(http.StatusTemporaryRedirect, "/week/2021/1/1")
+	}).GET("/month", func(c *gin.Context) {
+		c.Redirect(http.StatusTemporaryRedirect, "/month/2021/1/1")
+	}).GET("/quarter", func(c *gin.Context) {
+		c.Redirect(http.StatusTemporaryRedirect, "/quarter/2021/1/1")
+	}).GET("/year", func(c *gin.Context) {
+		c.Redirect(http.StatusTemporaryRedirect, "/year/2021/1/1")
+	}).GET("/day/:year/:month/:day", func(c *gin.Context) {
 		c.HTML(http.StatusOK, "day.html", gin.H{})
-	})
-	r.GET("/week/:year/:month/:day", func(c *gin.Context) {
+	}).GET("/week/:year/:month/:day", func(c *gin.Context) {
 		year := c.Params.ByName("year")
 		month := c.Params.ByName("month")
 		day := c.Params.ByName("day")
 		c.JSON(http.StatusOK, gin.H{"year": year, "month": month, "day": day})
-	})
-	r.GET("/month/:year/:month/:day", func(c *gin.Context) {
+	}).GET("/month/:year/:month/:day", func(c *gin.Context) {
 		year := c.Params.ByName("year")
 		month := c.Params.ByName("month")
 		day := c.Params.ByName("day")
 		c.JSON(http.StatusOK, gin.H{"year": year, "month": month, "day": day})
-	})
-	r.GET("/quarter/:year/:month/:day", func(c *gin.Context) {
+	}).GET("/quarter/:year/:month/:day", func(c *gin.Context) {
 		year := c.Params.ByName("year")
 		month := c.Params.ByName("month")
 		day := c.Params.ByName("day")
 		c.JSON(http.StatusOK, gin.H{"year": year, "month": month, "day": day})
-	})
-	r.GET("/year/:year/:month/:day", func(c *gin.Context) {
+	}).GET("/year/:year/:month/:day", func(c *gin.Context) {
 		year := c.Params.ByName("year")
 		month := c.Params.ByName("month")
 		day := c.Params.ByName("day")
