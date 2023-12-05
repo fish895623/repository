@@ -45,5 +45,11 @@ func main() {
 			http.StatusOK, "index.html",
 			gin.H{})
 	})
+	r.GET("/daily/:year/:month/:day", func(c *gin.Context) {
+		year := c.Params.ByName("year")
+		month := c.Params.ByName("month")
+		day := c.Params.ByName("day")
+		c.JSON(http.StatusOK, gin.H{"year": year, "month": month, "day": day})
+	})
 	r.Run(":8080")
 }
