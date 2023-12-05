@@ -55,10 +55,7 @@ func main() {
 		c.JSON(http.StatusOK, gin.H{"data": user})
 	})
 	r.GET("/day/:year/:month/:day", func(c *gin.Context) {
-		year := c.Params.ByName("year")
-		month := c.Params.ByName("month")
-		day := c.Params.ByName("day")
-		c.JSON(http.StatusOK, gin.H{"year": year, "month": month, "day": day})
+		c.HTML(http.StatusOK, "index.html", gin.H{})
 	})
 	r.GET("/week/:year/:month/:day", func(c *gin.Context) {
 		year := c.Params.ByName("year")
