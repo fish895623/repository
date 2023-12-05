@@ -1,26 +1,23 @@
-import { BrowserRouter, Link, Route, Routes } from "react-router-dom";
+import { Link, Route, Routes } from "react-router-dom";
+import Page from "./DayReport";
 import "./App.css";
 
 const Header = () => {
   return (
     <>
       <div>asdfasdfasdfr</div>
-      <Link to={`/about`}>asdfa</Link>
+      <Link to="/report">asdfa</Link>
     </>
   );
 };
 
-function App() {
+const App = () => {
   return (
-    <div className="App">
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Header />} />
-          <Route path="/about" element={<div>about</div>} />
-        </Routes>
-      </BrowserRouter>
-    </div>
+    <Routes>
+      <Route path="/" element={<Header />} />
+      <Route path="/report" element={<Page />} />;
+    </Routes>
   );
-}
+};
 
 export default App;
