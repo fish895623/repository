@@ -16,6 +16,15 @@ func main() {
 		c.JSON(http.StatusOK, gin.H{})
 	})
 	r.GET("/api/id/:id", func(c *gin.Context) {
+		var user User
+
+		id := c.Params.ByName("id")
+		if err := db.Where("id = ?", id).First(&user).Error; err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			return
+		}
+
+		c.JSON(http.StatusOK, gin.H{"status": "ok", "data": user})
 	})
 	r.POST("/api/id", func(c *gin.Context) {
 		var user User
