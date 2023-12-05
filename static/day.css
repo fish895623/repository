@@ -1,0 +1,46 @@
+.header {
+  margin: 5mm;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+#marker {
+  color: red;
+  font-weight: bold;
+  font-size: 11px;
+  margin-left: auto;
+  margin-right: 0;
+}
+
+#noti,
+#name,
+#date,
+#timeout {
+  font-size: 11px;
+}
+
+#name,
+#date,
+#timeout {
+  padding-top: 5mm;
+}
+
+#name,
+#date {
+  font-weight: bold;
+}
+
+.container {
+  font-size: 10px;
+}
+
+thead {
+  align-items: center;
+}
+
+.sd,
+.ed,
+.pp,
+.pr {
+  text-align: center;
+}

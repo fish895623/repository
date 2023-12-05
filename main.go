@@ -12,10 +12,10 @@ var db = ConnDataBase()
 func main() {
 	r := gin.Default()
 	r.LoadHTMLGlob("templates/*.html")
+	r.Static("/static", "./static")
+
 	r.GET("/", func(c *gin.Context) {
-		c.HTML(
-			http.StatusOK, "index.html",
-			gin.H{})
+		c.HTML(http.StatusOK, "index.html", gin.H{})
 	})
 	r.GET("/api/id", func(c *gin.Context) {
 		var ids []int64
@@ -55,7 +55,7 @@ func main() {
 		c.JSON(http.StatusOK, gin.H{"data": user})
 	})
 	r.GET("/day/:year/:month/:day", func(c *gin.Context) {
-		c.HTML(http.StatusOK, "index.html", gin.H{})
+		c.HTML(http.StatusOK, "day.html", gin.H{})
 	})
 	r.GET("/week/:year/:month/:day", func(c *gin.Context) {
 		year := c.Params.ByName("year")
