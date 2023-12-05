@@ -13,13 +13,14 @@ func main() {
 	r := gin.Default()
 	r.LoadHTMLGlob("templates/*.html")
 	r.GET("/api/id", func(c *gin.Context) {
-		var user []User
+		var ids []int64
 
-		if err := db.Find(&user).Error; err != nil {
+		if err := db.Model(&User{}).Select("id").Pluck("id", &ids).Error; err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 			return
 		}
-		c.JSON(http.StatusOK, gin.H{"data": user})
+
+		c.JSON(http.StatusOK, gin.H{"data": ids})
 	})
 	r.GET("/api/id/:id", func(c *gin.Context) {
 		var user User
