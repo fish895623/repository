@@ -12,6 +12,11 @@ var db = ConnDataBase()
 func main() {
 	r := gin.Default()
 	r.LoadHTMLGlob("templates/*.html")
+	r.GET("/", func(c *gin.Context) {
+		c.HTML(
+			http.StatusOK, "index.html",
+			gin.H{})
+	})
 	r.GET("/api/id", func(c *gin.Context) {
 		var ids []int64
 
@@ -21,17 +26,6 @@ func main() {
 		}
 
 		c.JSON(http.StatusOK, gin.H{"data": ids})
-	})
-	r.GET("/api/id/:id", func(c *gin.Context) {
-		var user User
-
-		id := c.Params.ByName("id")
-		if err := db.Where("id = ?", id).First(&user).Error; err != nil {
-			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-			return
-		}
-
-		c.JSON(http.StatusOK, gin.H{"data": user})
 	})
 	r.POST("/api/id", func(c *gin.Context) {
 		var user User
@@ -49,10 +43,16 @@ func main() {
 
 		c.JSON(http.StatusOK, gin.H{"data": user})
 	})
-	r.GET("/", func(c *gin.Context) {
-		c.HTML(
-			http.StatusOK, "index.html",
-			gin.H{})
+	r.GET("/api/id/:id", func(c *gin.Context) {
+		var user User
+
+		id := c.Params.ByName("id")
+		if err := db.Where("id = ?", id).First(&user).Error; err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			return
+		}
+
+		c.JSON(http.StatusOK, gin.H{"data": user})
 	})
 	r.GET("/daily/:year/:month/:day", func(c *gin.Context) {
 		year := c.Params.ByName("year")
