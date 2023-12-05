@@ -13,7 +13,13 @@ func main() {
 	r := gin.Default()
 	r.LoadHTMLGlob("templates/*.html")
 	r.GET("/api/id", func(c *gin.Context) {
-		c.JSON(http.StatusOK, gin.H{})
+		var user []User
+
+		if err := db.Find(&user).Error; err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			return
+		}
+		c.JSON(http.StatusOK, gin.H{"data": user})
 	})
 	r.GET("/api/id/:id", func(c *gin.Context) {
 		var user User
@@ -24,7 +30,7 @@ func main() {
 			return
 		}
 
-		c.JSON(http.StatusOK, gin.H{"status": "ok", "data": user})
+		c.JSON(http.StatusOK, gin.H{"data": user})
 	})
 	r.POST("/api/id", func(c *gin.Context) {
 		var user User
@@ -38,7 +44,9 @@ func main() {
 			return
 		}
 
-		c.JSON(http.StatusOK, gin.H{"status": "ok", "data": user})
+		db.Last(&user)
+
+		c.JSON(http.StatusOK, gin.H{"data": user})
 	})
 	r.GET("/", func(c *gin.Context) {
 		c.HTML(
