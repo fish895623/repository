@@ -3,6 +3,7 @@ package main
 import (
 	"net/http"
 
+	"github.com/gin-gonic/contrib/static"
 	"github.com/gin-gonic/gin"
 	. "viewmtechnology.com/dailyreport/reporter"
 )
@@ -11,12 +12,6 @@ var db = ConnDataBase()
 
 func main() {
 	r := gin.Default()
-	r.LoadHTMLGlob("templates/*.html")
-	r.Static("/static", "./static")
-
-	r.GET("/", func(c *gin.Context) {
-		c.HTML(http.StatusOK, "index.html", gin.H{})
-	})
 	r.GET("/api/id", func(c *gin.Context) {
 		var ids []int64
 
@@ -26,8 +21,7 @@ func main() {
 		}
 
 		c.JSON(http.StatusOK, gin.H{"data": ids})
-	})
-	r.POST("/api/id", func(c *gin.Context) {
+	}).POST("/api/id", func(c *gin.Context) {
 		var user User
 
 		if err := c.ShouldBindJSON(&user); err != nil {
@@ -42,8 +36,7 @@ func main() {
 		db.Last(&user)
 
 		c.JSON(http.StatusOK, gin.H{"data": user})
-	})
-	r.GET("/api/id/:id", func(c *gin.Context) {
+	}).GET("/api/id/:id", func(c *gin.Context) {
 		var user User
 
 		id := c.Params.ByName("id")
@@ -87,6 +80,7 @@ func main() {
 		day := c.Params.ByName("day")
 		c.JSON(http.StatusOK, gin.H{"year": year, "month": month, "day": day})
 	})
+	r.Use(static.Serve("/", static.LocalFile("./client/build", true)))
 
 	r.Run(":8080")
 }
